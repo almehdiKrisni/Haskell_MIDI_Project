@@ -21,9 +21,13 @@ getDur (Note p d v) = d
 getDur (Chord onset elems) = foldl max 0 (map getDur elems)
 getDur (Measure elems) = foldl max 0 (map (\x -> (getDur x) + (getOnset x)) elems)
 
+--L'appel initial à collectMidi se fait avec (Integer = 0) + Fonctionne
 collectMidi :: MusObj -> Integer -> [(Integer, PMMsg)]
 collectMidi (Note h d v) at = collectMidiNote h d v at
-collectMidi _ at = [] -- a vous de faire
+collectMidi (Chord onset (h:t)) at = collectMidi h onset ++ collectMidi (Chord onset t) at
+collectMidi (Chord onset []) at = []
+collectMidi (Measure (h:t)) at = collectMidi h at ++ collectMidi (Measure t) at
+collectMidi (Measure []) at = []
 
 play :: MusObj -> PMStream -> IO ()
 play obj stream = do
@@ -43,6 +47,12 @@ play obj stream = do
   threadDelay (fromIntegral $ (dur * 1000))
   return ()
 
+playMultipleTimes :: [MusObj] -> PMStream -> IO ()
+playMultipleTimes (h:t) stream = do
+  play h stream
+  playMultipleTimes t stream
+playMultipleTimes [] stream = return ()
+
 --Renvoie le nombre de notes d'un objet musical
 countNotes :: MusObj -> Int
 countNotes (Note p d v) = 1
@@ -51,11 +61,12 @@ countNotes (Measure l) = sum (map countNotes l)
 
 --Retourne un nouvel objet musical dont la durée a été multipliée par un facteur flottant
 stretch :: MusObj -> Float -> MusObj 
-stretch (Note p d v) f = Note p x v where
-  x = round (fromIntegral d * f)
-stretch (Chord onset elems) f = Chord onset (map helper elems) where
+stretch (Note p d v) f = Note p (round (fromIntegral d * f)) v
+stretch (Chord onset elems) f = do
+  Chord onset (map helper elems) where
   helper = (`stretch` f)
-stretch (Measure elems) f = Measure (map helper elems) where
+stretch (Measure elems) f = do
+  Measure (map helper elems) where
   helper = (`stretch` f)
 
 --Retourne un nouvel objet musical dont les hauteurs ont été additionées de n demitons
@@ -64,7 +75,7 @@ transpose (Note p d v) n = Note (p + n) d v
 transpose (Chord onset elems) n = Chord onset (map helper elems) where
   helper = (`transpose` n)
 transpose (Measure elems) n = Measure (map helper elems) where
-  helper = (`transpose` n)
+  helper = (`transpose` n) 
 
 --Fait le miroir des toutes les hauteurs d’un objet musical autour d’une hauteur donnée.
 mirror :: MusObj -> Integer -> MusObj

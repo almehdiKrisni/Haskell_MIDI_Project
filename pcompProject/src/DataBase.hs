@@ -1,7 +1,19 @@
 module DataBase where
 
 import MusicLib
- 
+import System.Random
+
+--Longueur de measures
+len :: Int
+len = length measures
+
+--Permet d'obtenir un index aléatoire
+getRandomIndex :: IO Int
+getRandomIndex = getStdRandom $ randomR (0, len - 1)
+
+--Fonction performMeasure
+
+
 --MIDI
 measures :: [MusObj]
 measures = 
