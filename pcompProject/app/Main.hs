@@ -68,49 +68,6 @@ modifyMusicSpeed newVal = do
   return (newVal)
 
 
-testMeasure =  Measure [
-            (Chord 0 [(Note 42 610 86),(Note 54 594 81),(Note 81 315 96)]),
-            (Chord 292 [(Note 78 370 78)]),
-            (Chord 601 [(Note 76 300 91),(Note 43 585 83),(Note 55 588 98)]),
-            (Chord 910 [(Note 79 335 96)]),
-            (Chord 1189 [(Note 73 342 86),(Note 57 595 76),(Note 45 607 83)]),
-            (Chord 1509 [(Note 76 280 93)])]
-
-
-testMeasure2 = [
-  Measure [
-            (Chord 0 [(Note 42 610 86),(Note 54 594 81),(Note 81 315 96)]),
-            (Chord 292 [(Note 78 370 78)]),
-            (Chord 601 [(Note 76 300 91),(Note 43 585 83),(Note 55 588 98)]),
-            (Chord 910 [(Note 79 335 96)]),
-            (Chord 1189 [(Note 73 342 86),(Note 57 595 76),(Note 45 607 83)]),
-            (Chord 1509 [(Note 76 280 93)])],
-   Measure [
-            (Chord 0 [(Note 49 616 86)]),
-            (Chord 295 [(Note 64 314 78)]),
-            (Chord 583 [(Note 52 616 88),(Note 68 296 81)]),
-            (Chord 863 [(Note 69 290 96)]),
-            (Chord 1168 [(Note 57 607 79),(Note 73 305 79)]),
-            (Chord 1473 [(Note 76 310 100)])],
-   Measure [
-            (Chord 0 [(Note 50 596 91),(Note 66 575 108),(Note 74 588 108)]),
-            (Chord 612 [(Note 54 297 76),(Note 66 576 85),(Note 74 576 85)]),
-            (Chord 901 [(Note 57 305 78)]),
-            (Chord 1181 [(Note 66 575 69),(Note 74 575 69),(Note 62 610 86)])],
-   Measure [
-            (Chord 0 [(Note 76 447 105),(Note 43 636 86),(Note 55 616 85)]),
-            (Chord 435 [(Note 71 150 69)]),
-            (Chord 595 [(Note 42 600 108),(Note 54 600 108),(Note 69 300 108)]),
-            (Chord 995 [(Note 71 150 69)]),
-            (Chord 1197 [(Note 67 538 108),(Note 40 567 93),(Note 52 588 102)])],
-   Measure [
-            (Chord 0 [(Note 45 374 96),(Note 69 1787 108)]),
-            (Chord 286 [(Note 49 360 86)]),
-            (Chord 574 [(Note 52 317 88)]),
-            (Chord 864 [(Note 57 340 85)]),
-            (Chord 1156 [(Note 45 628 86)])]]
-
-
 --Fonction permettant de jouer 16 menuets (recursive - joue 1 menuet par appel)
 playMeasure :: GameOptions -> Integer -> IO ()
 playMeasure opt x = do
