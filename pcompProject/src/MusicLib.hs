@@ -63,7 +63,7 @@ countNotes (Measure l) = sum (map countNotes l)
 stretch :: MusObj -> Float -> MusObj 
 stretch (Note p d v) f = Note p (round (fromIntegral d * f)) v
 stretch (Chord onset elems) f = do
-  Chord onset (map helper elems) where
+  Chord (round (fromIntegral onset * f)) (map helper elems) where
   helper = (`stretch` f)
 stretch (Measure elems) f = do
   Measure (map helper elems) where

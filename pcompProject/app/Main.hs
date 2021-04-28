@@ -284,7 +284,7 @@ menu opt = do
 
     --Choice = 6
     "6" -> do
-      putStrLn "\nQuelle vitesse d'execution souhaitez-vous ?\n(Elle doit etre dans l'intervalle [0.0 , 1000.0])"
+      putStrLn "\nQuelle vitesse d'execution souhaitez-vous ?\n(Valeur comprise dans [0.0 , 1000.0] - Plus la valeur est faible, plus la musique est rapide !)"
       choice <- getLine
       let choiceFloat = read choice :: Float
       if choiceFloat > 0.0 && choiceFloat < 1000.0 --Vitesse limitée à x1000
