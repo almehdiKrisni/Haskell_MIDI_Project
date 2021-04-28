@@ -2,14 +2,14 @@
 
 Contient l'ensemble du code du projet de Haskell - Le jeu de Mozart.
 
-Dans le cadre du projet il nous a été demandé de réaliser un programme en Haskell qui permet de jouer des menuets composés avec le jeu de Mozart. 
+Dans le cadre du projet, il nous a été demandé de réaliser un programme en Haskell qui permet de jouer des menuets composés avec le jeu de Mozart. 
 
 ## Dossiers
-Pour cela deux dossiers nous ont été fourni : 
+Pour cela, deux dossiers nous ont été fourni : 
 
-1- PortMidi-master : Librairie permettant d'émuler un Port Midi sur ordinateur
+1) PortMidi-master : Librairie permettant d'émuler un Port Midi sur ordinateur.
 
-2- pcompProject : Projet contenant les fichiers à modifier
+2) pcompProject : Projet contenant les fichiers à modifier.
 
 ## Description des Fichiers modifiés
 
@@ -20,6 +20,7 @@ Pour cela deux dossiers nous ont été fourni :
     - Chord *(Integer [MusObj])*
     - Measure *([MusObj] deriving (Show))* 
 
+Fonctions :
 - **getOnSet** *(MusObj -> Integer)* : Permet de connaitre le nombre de note
 - **getDur** *(MusObj -> Integer)* : Afin de calculer la durée d'un objet musical
 - **collectMidi** *(MusObj -> Integer -> [(Integer, PMMsg)])* : Permet d'appliquer la fonction collectMidiNote (Midi.hs) à un objet musical
@@ -38,6 +39,7 @@ Pour cela deux dossiers nous ont été fourni :
     - mirrorMode *(Integer)*
     - speedFactor *(Float)* 
 
+Fonctions :
 - **midiDevicePrint** *(Int -> IO())* : Affiche les informations à propos d'un device de sortie
 - **modifyOutputDevice** *(DeviceID -> State GameOptions DeviceID)* : Modifier le device de sortie
 - **modifyInstrumentNumber** *(Integer -> State GameOptions Integer)* : Modifier le numéro de l'instrument choisi
