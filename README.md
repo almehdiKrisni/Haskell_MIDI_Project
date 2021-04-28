@@ -2,14 +2,14 @@
 
 Contient l'ensemble du code du projet de Haskell - Le jeu de Mozart.
 
-Dans le cadre du projet il nous a été demandé de réaliser un programme en Haskell qui permet de jouer des menuets composés avec le jeu de Mozart. 
+Dans le cadre du projet, il nous a été demandé de réaliser un programme en Haskell qui permet de jouer des menuets composés avec le jeu de Mozart. 
 
 ## Dossiers
-Pour cela deux dossiers nous ont été fourni : 
+Pour cela, deux dossiers nous ont été fourni : 
 
-1- PortMidi-master : Librairie permettant d'émuler un Port Midi sur ordinateur
+1) PortMidi-master : Librairie permettant d'émuler un Port Midi sur ordinateur.
 
-2- pcompProject : Projet contenant les fichiers à modifier
+2) pcompProject : Projet contenant les fichiers à modifier.
 
 ## Description des Fichiers modifiés
 
@@ -20,6 +20,7 @@ Pour cela deux dossiers nous ont été fourni :
     - Chord *(Integer [MusObj])*
     - Measure *([MusObj] deriving (Show))* 
 
+Fonctions présentes dans le fichier :
 - **getOnSet** *(MusObj -> Integer)* : Permet de connaitre le nombre de note
 - **getDur** *(MusObj -> Integer)* : Afin de calculer la durée d'un objet musical
 - **collectMidi** *(MusObj -> Integer -> [(Integer, PMMsg)])* : Permet d'appliquer la fonction collectMidiNote (Midi.hs) à un objet musical
@@ -38,6 +39,7 @@ Pour cela deux dossiers nous ont été fourni :
     - mirrorMode *(Integer)*
     - speedFactor *(Float)* 
 
+Fonctions présentes dans le fichier :
 - **midiDevicePrint** *(Int -> IO())* : Affiche les informations à propos d'un device de sortie
 - **modifyOutputDevice** *(DeviceID -> State GameOptions DeviceID)* : Modifier le device de sortie
 - **modifyInstrumentNumber** *(Integer -> State GameOptions Integer)* : Modifier le numéro de l'instrument choisi
@@ -49,47 +51,49 @@ Pour cela deux dossiers nous ont été fourni :
 
 ## Le Menu
 
-En lançant le fichier main.hs un menu s'affiche offrant à l'utilisateur plusieurs choix, selon le nombre rentré dans le terminal.
+Lorsqu'on exécute le Main, un menu apparaît au niveau du terminal. Grâce à cette interface, l'utilisateur peut demander la lecture d'un menuet en fonction des paramètres qu'il aura sélectionnés.
 
-#### Choix '1' : Jouer un menuet 
+L'utilisateur peut effectuer les actions suivantes : 
 
-Ce choix va permettre de jouer 16 notes choisies aléatoirement parmi une liste de mesures fournit dans le fichier DataBase.hs
+#### Choix 1 - Jouer un menuet 
 
-#### Choix '2' : Modifier le device de sortie 
+Ce choix va permettre de jouer 16 mesures choisies aléatoirement parmi une liste de mesures fournit dans le fichier DataBase.hs.
 
-Cette option permet de choisir le device de sortie audio
+#### Choix 2 - Modifier le device de sortie 
 
-#### Choix '3' : Modifier l'instrument
+Cette option permet de choisir le device de sortie audio.
 
-Permet de choisir l'instrument pour le son
+#### Choix 3 - Modifier l'instrument
+
+Permet de choisir l'instrument utilisé.
 Veuillez vous référer à liste d'instrument sur :
-https://soundprogramming.net/file-formats/general-midi-instrument-list/
+<br/>https://soundprogramming.net/file-formats/general-midi-instrument-list/
 
-#### Choix '4' : Modifier le mode de transposition 
+#### Choix 4 - Modifier le mode de transposition 
 
-Permet d'ajouter ou enlever des demitons à la hauteur. 
+Permet d'ajouter ou enlever des demitons à la hauteur :
 - 0 = Sans Transposition
 - 1 = +12 demitons
 - 2 = -12 demitons
 
 #### Choix '5' : Passer en mode miroir
 
-Passage en mode miroir par rapport à une hauteur de 100.
+Passage en mode miroir par rapport à une hauteur de 100 :
 - 0 = Mode miroir désactivé
 - 1 = Mode miroir activé 
 
-#### Choix '6' : Changement de vitesse
+#### Choix 6 - Changement de vitesse
 
 Permet de changer la vitesse d'execution via une valeur flottante comprise entre 0.0 et 1000.0. 
-Plus la valeur fournie est faible, plus la musique est rapide, et inversement.
+<br/>Plus la valeur fournie est faible, plus la musique est rapide, et inversement.
 
-#### Choix '7' : Remettre à défaut
+#### Choix 7 - Réinitialiser les paramètres
 
-Permet de remettre les paramètre modifiés durant l'utilisation du programme à défaut.
+Permet de remettre les paramètres modifiés durant l'utilisation du programme à défaut.
 
-#### Choix '0' : Quitter
+#### Choix 0 - Quitter le programme
 
-Quiiter le programme
+Quiiter le programme.
 
 
 
