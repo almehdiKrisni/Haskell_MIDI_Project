@@ -27,7 +27,7 @@ Pour cela deux dossiers nous ont été fourni :
 - **countNotes** *(MusObj -> Integer)* : Retourne le nombre de notes d'un objet musical
 - **stretch** *(MusObj -> Float -> MusObj)* : Multiplie la durée d'un objet musical par un facteur flottant
 - **transpose** *(MusObj -> Integer (n) -> MusObj)* : Additionne au hauteur d'un objet musical n demitons
-- **mirror** *(MusObj -> Integer -> MusObj)* : Fait le mirroir de toutes les hauteurs d'un objet musical autour d'une hauteur donnée
+- **mirror** *(MusObj -> Integer -> MusObj)* : Fait le miroir de toutes les hauteurs d'un objet musical autour d'une hauteur donnée
 
 ### 2. Main.hs
 
@@ -42,7 +42,7 @@ Pour cela deux dossiers nous ont été fourni :
 - **modifyOutputDevice** *(DeviceID -> State GameOptions DeviceID)* : Modifier le device de sortie
 - **modifyInstrumentNumber** *(Integer -> State GameOptions Integer)* : Modifier le numéro de l'instrument choisi
 - **modifyTranspositionMode** *(Integer -> State GameOptions Integer)* : Modifier le mode de transposition
-- **modifyMirrorMode** *(Integer -> State GameOptions Integer)* : Passer en mode mirroir (via une hauteur de 100) 
+- **modifyMirrorMode** *(Integer -> State GameOptions Integer)* : Passer en mode miroir (via une hauteur de 100) 
 - **modifyMusicSpeed** *(Float -> State GameOptions Float)* : Changer la vitesse
 - **playMeasure** *(GameOptions -> Integer -> IO())* : Fonction permettant de jouer un nombre de menuet passer en paramètre 
 - **menu** *(GameOptions -> IO())* : Interface utilisateur (UI)
@@ -72,11 +72,11 @@ Permet d'ajouter ou enlever des demitons à la hauteur.
 - 1 = +12 demitons
 - 2 = -12 demitons
 
-#### Choix '5' : Passer en mode mirroir
+#### Choix '5' : Passer en mode miroir
 
-Passage en mode mirroir par rapport à une hauteur de 100.
-- 0 = Mode mirroir désactivé
-- 1 = Mode mirroir activé 
+Passage en mode miroir par rapport à une hauteur de 100.
+- 0 = Mode miroir désactivé
+- 1 = Mode miroir activé 
 
 #### Choix '6' : Changement de vitesse
 
