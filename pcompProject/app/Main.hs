@@ -111,30 +111,37 @@ testMeasure2 = [
             (Chord 1156 [(Note 45 628 86)])]]
 
 
---Fonction permettant de créer le Menu
-menu :: GameOptions -> IO ()
-menu opt = do
+--Fonction permettant de jouer 16 menuets (recursive - joue 1 menuet par appel)
+playMeasure :: GameOptions -> Integer -> IO ()
+playMeasure opt x = do
+  if x > 0
+    then do
+      --Generation d'un index aléatoire
+      --Thanks to the people on this website - https://en.wikibooks.org/wiki/Haskell/Libraries/Random
+      gen <- newStdGen
+      let ns = randoms gen :: [Int]
+      let list = take 1 ns
+      let len = length measures
+      let (h:t) = map (`mod` len) list
 
-  --Affichage principal du menu
-  putStrLn "\nMenu Principal - Le Jeu de Mozart\n1 - Jouer un menuet\n2 - Modifier le device de sortie\n3 - Modifier l'instrument\n4 - Modifier le mode de transposition\n5 - Modifier le mode miroir\n6 - Modifier la vitesse\n0 - Fermeture du menu\n\nVeuillez choisir une option :"
+      --On recupere la mesure liée à l'index
+      let menuet = (measures !! h)
 
-  --On chosit une option
-  choice <- getLine
-  case choice of
-
-    --Choice = 1
-    "1" -> do
-      --On joue un menuet
-
-      terminate
-
-      initialize
-
+      --On adapte la mesure
       --On recupere les parametres
       let instrumentChoice = instrumentNumber opt
       let transpoModeSelected = transpositionMode opt
       let mirrorModeSelected = mirrorMode opt
       let speedFactorSelected = speedFactor opt
+
+      --On adapte le mode de transposition
+      let menuet1 = transpose menuet transpoModeSelected
+
+      --On adapte le mode miroir
+      let menuet2 = mirror menuet1 mirrorModeSelected 
+
+      --On adapte la vitesse d'execution
+      let menuet3 = stretch menuet2 speedFactorSelected
 
       --On prend l'output device par defaut
       deviceId <- getDefaultOutputDeviceID
@@ -146,40 +153,51 @@ menu opt = do
           result <- openOutput n 1
           case result of
             Left err -> do
-              putStrLn "Erreur de la lecture du menuet.\n"
+              putStrLn "Erreur lors de la lecture du menuet.\n"
               return ()
 
             Right stream -> do
-              putStrLn "On joue le menuet.\n"
-
-              --On applique les paramètres
-              --On récupère le menuet
-              let menuet = testMeasure2
-
               --On modifie l'instrument utilisé
-              changeInstrument 23 stream --test
-
-              --On adapte le mode de transposition
-              let menuet1 = (map helper menuet) where helper = (`transpose` transpoModeSelected)
-
-              --On adapte le mode miroir
-              let menuet2 = (map helper menuet1) where helper = (`mirror` mirrorModeSelected) 
-
-              --On adapte la vitesse d'execution
-              let menuet3 = (map helper menuet2) where helper = (`stretch` speedFactorSelected)
+              changeInstrument instrumentChoice stream
 
               --On joue le menuet
-              playMultipleTimes menuet3 stream
+              play menuet3 stream
               close stream
-              menu opt
-              return ()
               
+              --On joue le menuet suivant
+              playMeasure opt (x - 1)
+              return ()
+
+    else do
+      return ()
+
+
+--Fonction permettant de créer le Menu
+menu :: GameOptions -> IO ()
+menu opt = do
+
+  --Affichage principal du menu
+  putStrLn "\nMenu Principal - Le Jeu de Mozart\n1 - Jouer un menuet\n2 - Modifier le device de sortie\n3 - Modifier l'instrument\n4 - Modifier le mode de transposition\n5 - Modifier le mode miroir\n6 - Modifier la vitesse\n7 - Reinitialiser les paramètres de jeu\n0 - Fermeture du menu\n\nVeuillez choisir une option :"
+
+  --On chosit une option
+  choice <- getLine
+  case choice of
+
+    --Choice = 1
+    "1" -> do
+      --On joue un menuet
+      terminate
+      initialize  
+
+      --On appelle la fonction allant jouer 16 mesures
+      playMeasure opt 16
+      menu opt
+      return ()            
 
     --Choice = 2
     "2" -> do
       --On print les drivers
       terminate
-
       initialize
 
       n <- countDevices
@@ -299,6 +317,13 @@ menu opt = do
           menu opt
           return ()
 
+    --Choice = 7
+    "7" -> do
+      putStrLn "Réinitialisation en cours ..."
+      newOpt <- return (GameOptions 0 1 0 0 1.0)
+      menu newOpt
+      return ()
+
     --Choice = 0
     "0" -> do
       putStrLn "\nFermeture du menu. Au revoir.\n"
@@ -312,33 +337,7 @@ main = do
   --Options par défaut
   opt <- return (GameOptions 0 1 0 0 1.0)
 
-  menu opt --On ouvre le menu
-
-  terminate
-
-  return ()
-
-  {-
-
-  initialize
-
-  n <- countDevices
-  midiDevicePrint (n - 1)
-  deviceId <- getDefaultOutputDeviceID
-
-  case deviceId of
-     Nothing   -> putStrLn "Pas de port Midi par default"
-     Just n ->
-      do
-       result <- openOutput n 1
-       case result of
-        Left err   -> return ()
-        Right stream ->
-         do
-          playMultipleTimes testMeasure2 stream
-          close stream
-          return ()
+  --On ouvre le menu
+  menu opt
   terminate
   return ()
-
-  -}

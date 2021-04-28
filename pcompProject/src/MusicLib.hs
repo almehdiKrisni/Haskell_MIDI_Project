@@ -47,12 +47,6 @@ play obj stream = do
   threadDelay (fromIntegral $ (dur * 1000))
   return ()
 
-playMultipleTimes :: [MusObj] -> PMStream -> IO ()
-playMultipleTimes (h:t) stream = do
-  play h stream
-  playMultipleTimes t stream
-playMultipleTimes [] stream = return ()
-
 --Renvoie le nombre de notes d'un objet musical
 countNotes :: MusObj -> Int
 countNotes (Note p d v) = 1
