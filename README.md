@@ -1,7 +1,7 @@
 # Haskell_MIDI_Project
 
-Binome :
-KRISNI Almehdi - 3800519
+Binome :<br/>
+KRISNI Almehdi - 3800519<br/>
 BADRIOUICHE Mohamed - 3701404
 
 Contient l'ensemble du code du projet de Haskell - Le jeu de Mozart.
