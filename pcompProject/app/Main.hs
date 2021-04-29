@@ -114,6 +114,9 @@ playMeasure opt x = do
               return ()
 
             Right stream -> do
+              -- putStrLn "\n\nStream is (playMeasure)"
+              -- print stream
+              
               --On modifie l'instrument utilisé
               changeInstrument instrumentChoice stream
 
@@ -147,6 +150,7 @@ menu opt = do
       initialize  
 
       --On appelle la fonction allant jouer 16 mesures
+      putStrLn "On joue le menuet ..."
       playMeasure opt 16
       menu opt
       return ()            

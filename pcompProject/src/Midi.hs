@@ -16,6 +16,8 @@ sortMidi l = sortBy myPredicate l
 
 changeInstrument :: Integer -> PMStream -> IO ()
 changeInstrument num stream = do
+  -- putStrLn "Stream is (changeInstrument)"
+  -- print stream
   startTime <- time
   let pgmchange = PMMsg 0xC0 (fromIntegral $ num) (fromIntegral $ 0)
       evt1 = PMEvent (encodeMsg pgmchange) startTime
