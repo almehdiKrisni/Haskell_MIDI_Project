@@ -71,7 +71,10 @@ modifyMusicSpeed newVal = do
 --Fonction permettant de jouer 16 menuets (recursive - joue 1 menuet par appel)
 playMeasure :: GameOptions -> Integer -> IO ()
 playMeasure opt x = do
-  if x > 8
+  --On récupère la colonne sur laquelle on va choisir une mesure
+  let col = fromIntegral (mod x 8)
+  
+  if x < 8
     then do
       --On joue une mesure de la première partie du menuet
 
@@ -80,9 +83,9 @@ playMeasure opt x = do
       gen <- newStdGen
       let ns = randoms gen :: [Int]
       let list = take 1 ns
-      let len = length firstPart
-      let (h:t) = map (`mod` len) list
-      let index = (firstPart !! h)
+      let (h:t) = map (`mod` 11) list --On récupère la tete d'une liste random
+      let measurePosition = 8 * h + col
+      let index = (firstPart !! measurePosition)
 
       --On recupere la mesure liée à l'index
       let menuet = (measures !! (index - 1))
@@ -128,11 +131,11 @@ playMeasure opt x = do
               close stream
               
               --On joue le menuet suivant
-              playMeasure opt (x - 1)
+              playMeasure opt (x + 1)
               return ()
 
     else
-      if x > 0
+      if x < 16
         then do
           --On joue une mesure de la deuxième partie du menuet
 
@@ -141,9 +144,9 @@ playMeasure opt x = do
           gen <- newStdGen
           let ns = randoms gen :: [Int]
           let list = take 1 ns
-          let len = length secondPart
-          let (h:t) = map (`mod` len) list
-          let index = (secondPart !! h)
+          let (h:t) = map (`mod` 11) list --On récupère la tete d'une liste random
+          let measurePosition = 8 * h + col
+          let index = (secondPart !! measurePosition)
 
           --On recupere la mesure liée à l'index
           let menuet = (measures !! (index - 1))
@@ -189,7 +192,7 @@ playMeasure opt x = do
                   close stream
                   
                   --On joue le menuet suivant
-                  playMeasure opt (x - 1)
+                  playMeasure opt (x + 1)
                   return ()
 
       else
@@ -217,7 +220,7 @@ menu opt = do
 
       --On appelle la fonction allant jouer 16 mesures
       putStrLn "On joue le menuet ..."
-      playMeasure opt 16
+      playMeasure opt 0
       menu opt
       return ()            
 
@@ -304,7 +307,7 @@ menu opt = do
 
     --Choice = 5
     "5" -> do
-      putStrLn "\nSouhaitez-vous activer le mode miroir ?\n0 = Mode miroir désactivé\n1 = Miroir activé à 100"
+      putStrLn "\nSouhaitez-vous activer le mode miroir ?\n0 = Mode miroir désactivé\n1 = Miroir activé à 60"
       choice <- getLine
       let choiceInt = read choice :: Integer
       if choiceInt > -1 && choiceInt < 2
@@ -318,7 +321,7 @@ menu opt = do
 
             1 -> do
               putStrLn "Modification du mode miroir en cours ..."
-              let (newOpt, optModified) = runState (modifyMirrorMode 100) opt
+              let (newOpt, optModified) = runState (modifyMirrorMode 60) opt
               menu optModified
               return ()
 
