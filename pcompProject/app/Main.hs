@@ -71,18 +71,21 @@ modifyMusicSpeed newVal = do
 --Fonction permettant de jouer 16 menuets (recursive - joue 1 menuet par appel)
 playMeasure :: GameOptions -> Integer -> IO ()
 playMeasure opt x = do
-  if x > 0
+  if x > 8
     then do
+      --On joue une mesure de la première partie du menuet
+
       --Generation d'un index aléatoire
       --Thanks to the people on this website - https://en.wikibooks.org/wiki/Haskell/Libraries/Random
       gen <- newStdGen
       let ns = randoms gen :: [Int]
       let list = take 1 ns
-      let len = length measures
+      let len = length firstPart
       let (h:t) = map (`mod` len) list
+      let index = (firstPart !! h)
 
       --On recupere la mesure liée à l'index
-      let menuet = (measures !! h)
+      let menuet = (measures !! (index - 1))
 
       --On adapte la mesure
       --On recupere les parametres
@@ -128,8 +131,71 @@ playMeasure opt x = do
               playMeasure opt (x - 1)
               return ()
 
-    else do
-      return ()
+    else
+      if x > 0
+        then do
+          --On joue une mesure de la deuxième partie du menuet
+
+          --Generation d'un index aléatoire
+          --Thanks to the people on this website - https://en.wikibooks.org/wiki/Haskell/Libraries/Random
+          gen <- newStdGen
+          let ns = randoms gen :: [Int]
+          let list = take 1 ns
+          let len = length secondPart
+          let (h:t) = map (`mod` len) list
+          let index = (secondPart !! h)
+
+          --On recupere la mesure liée à l'index
+          let menuet = (measures !! (index - 1))
+
+          --On adapte la mesure
+          --On recupere les parametres
+          let instrumentChoice = instrumentNumber opt
+          let transpoModeSelected = transpositionMode opt
+          let mirrorModeSelected = mirrorMode opt
+          let speedFactorSelected = speedFactor opt
+
+          --On adapte le mode de transposition
+          let menuet1 = transpose menuet transpoModeSelected
+
+          --On adapte le mode miroir
+          let menuet2 = mirror menuet1 mirrorModeSelected 
+
+          --On adapte la vitesse d'execution
+          let menuet3 = stretch menuet2 speedFactorSelected
+
+          --On prend l'output device par defaut
+          deviceId <- getDefaultOutputDeviceID
+
+          case deviceId of
+            Nothing -> putStrLn "Pas de port Midi par default"
+
+            Just n -> do
+              result <- openOutput n 1
+              case result of
+                Left err -> do
+                  putStrLn "Erreur lors de la lecture du menuet.\n"
+                  return ()
+
+                Right stream -> do
+                  -- putStrLn "\n\nStream is (playMeasure)"
+                  -- print stream
+                  
+                  --On modifie l'instrument utilisé
+                  changeInstrument instrumentChoice stream
+
+                  --On joue le menuet
+                  play menuet3 stream
+                  close stream
+                  
+                  --On joue le menuet suivant
+                  playMeasure opt (x - 1)
+                  return ()
+
+      else
+        --Fin du menuet
+
+        return ()
 
 
 --Fonction permettant de créer le Menu
