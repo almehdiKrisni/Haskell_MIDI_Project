@@ -50,10 +50,11 @@ Fonctions présentes dans le fichier :
 - **modifyTranspositionMode** *(Integer -> State GameOptions Integer)* : Modifier le mode de transposition
 - **modifyMirrorMode** *(Integer -> State GameOptions Integer)* : Passer en mode miroir (via une hauteur de 100) 
 - **modifyMusicSpeed** *(Float -> State GameOptions Float)* : Changer la vitesse
-- **playMeasure** *(GameOptions -> Integer -> IO())* : Fonction permettant de jouer un nombre de menuet passer en paramètre 
+- **playMeasure** *(GameOptions -> Integer -> IO())* : Fonction permettant de jouer un menuet 
+Attention - L'appel à playMeasure doit etre réalisé avec l'entier 0 afin de lire exactement 16 mesures.
 - **menu** *(GameOptions -> IO())* : Interface utilisateur (UI)
 
-## Le Menu
+## Menu
 
 Lorsqu'on exécute le Main, un menu apparaît au niveau du terminal. Grâce à cette interface, l'utilisateur peut demander la lecture d'un menuet en fonction des paramètres qu'il aura sélectionnés.
 
@@ -61,11 +62,12 @@ L'utilisateur peut effectuer les actions suivantes :
 
 #### Choix 1 - Jouer un menuet 
 
-Ce choix va permettre de jouer 16 mesures choisies aléatoirement parmi une liste de mesures fournit dans le fichier DataBase.hs.
+Permet de jouer 16 mesures (menuet) choisies aléatoirement parmi une liste de mesures fournie dans le fichier DataBase.hs.
+Le menuet est divisé en deux parties composées chacune de 8 mesures. A chaque partie son ensemble de mesures à jouer.
 
 #### Choix 2 - Modifier le device de sortie 
 
-Cette option permet de choisir le device de sortie audio.
+Permet de choisir le device de sortie audio. Afin d'éviter tout problème, le device de sortie audio par défaut sera utilisé.
 
 #### Choix 3 - Modifier l'instrument
 
@@ -82,7 +84,7 @@ Permet d'ajouter ou enlever des demitons à la hauteur :
 
 #### Choix 5 - Passer en mode miroir
 
-Passage en mode miroir par rapport à une hauteur de 100 :
+Premet le passage en mode miroir par rapport à une hauteur de 60 :
 - 0 = Mode miroir désactivé
 - 1 = Mode miroir activé 
 
@@ -97,9 +99,4 @@ Permet de remettre les paramètres modifiés durant l'utilisation du programme �
 
 #### Choix 0 - Quitter le programme
 
-Quitter le programme.
-
-
-
-
-
+Permet de quitter le programme.
