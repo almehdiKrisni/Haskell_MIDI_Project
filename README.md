@@ -93,7 +93,11 @@ Premet le passage en mode miroir par rapport à une hauteur de 60 :
 Permet de changer la vitesse d'exécution via une valeur flottante comprise entre 0.0 et 1000.0. 
 <br/>Plus la valeur fournie est faible, plus la musique est rapide, et inversement.
 
-#### Choix 7 - Réinitialiser les paramètres
+#### Choix 7 - Affichage des options sélectionnées
+
+Permet d'afficher les options en cours d'utilisation.
+
+#### Choix 8 - Réinitialiser les paramètres
 
 Permet de remettre les paramètres modifiés durant l'utilisation du programme à défaut.
 

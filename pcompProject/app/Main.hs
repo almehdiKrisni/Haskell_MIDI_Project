@@ -68,6 +68,21 @@ modifyMusicSpeed newVal = do
   return (newVal)
 
 
+--Permet d'afficher les options sélectionnées
+afficheOptions :: GameOptions -> IO ()
+afficheOptions opt = do
+  let instrumentChoice = instrumentNumber opt
+  let transpoModeSelected = transpositionMode opt
+  let mirrorModeSelected = mirrorMode opt
+  let speedFactorSelected = speedFactor opt
+
+  --On affiche
+  putStrLn ("Instrument sélectionné = " ++ show instrumentChoice)
+  putStrLn ("Mode transposition sélectionné = " ++ show transpoModeSelected)
+  putStrLn ("Mode miroir sélectionné = " ++ show mirrorModeSelected)
+  putStrLn ("Vitesse de jeu sélectionnée = " ++ show speedFactorSelected)
+
+
 --Fonction permettant de jouer 16 menuets (recursive - joue 1 menuet par appel)
 playMeasure :: GameOptions -> Integer -> IO ()
 playMeasure opt x = do
@@ -206,7 +221,8 @@ menu :: GameOptions -> IO ()
 menu opt = do
 
   --Affichage principal du menu
-  putStrLn "\nMenu Principal - Le Jeu de Mozart\n1 - Jouer un menuet\n2 - Modifier le device de sortie\n3 - Modifier l'instrument\n4 - Modifier le mode de transposition\n5 - Modifier le mode miroir\n6 - Modifier la vitesse\n7 - Reinitialiser les paramètres de jeu\n0 - Fermeture du menu\n\nVeuillez choisir une option :"
+  putStrLn "\n#############################################################"
+  putStrLn "\nMenu Principal - Le Jeu de Mozart\n1 - Jouer un menuet\n2 - Modifier le device de sortie\n3 - Modifier l'instrument (non disponible avec GarageBand)\n4 - Modifier le mode de transposition\n5 - Modifier le mode miroir\n6 - Modifier la vitesse\n7 - Afficher les paramètres actuels\n8 - Reinitialiser les paramètres de jeu\n0 - Fermeture du menu\n\nVeuillez choisir une option :"
 
   --On chosit une option
   choice <- getLine
@@ -349,6 +365,13 @@ menu opt = do
 
     --Choice = 7
     "7" -> do
+      putStrLn "Affichage des options ...\n"
+      afficheOptions opt
+      menu opt
+      return ()
+
+    --Choice = 8
+    "8" -> do
       putStrLn "Réinitialisation en cours ..."
       newOpt <- return (GameOptions 0 1 0 0 1.0)
       menu newOpt
